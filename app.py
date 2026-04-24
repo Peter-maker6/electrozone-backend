@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail
 from config import Config
 
 # Initialize extensions
 db = SQLAlchemy()
+mail = Mail()
 
 def create_app(config_class=Config):
     """Application factory for creating Flask app instances."""
@@ -13,6 +15,7 @@ def create_app(config_class=Config):
     
     # Initialize extensions
     db.init_app(app)
+    mail.init_app(app)
     CORS(app, resources={r"/api/*": {"origins": "*"}})
     
     # Register blueprints
@@ -21,12 +24,14 @@ def create_app(config_class=Config):
     from routes.orders import orders_bp
     from routes.users import users_bp
     from routes.payments import payments_bp
+    from routes.auth import auth_bp
     
     app.register_blueprint(products_bp, url_prefix='/api/products')
     app.register_blueprint(categories_bp, url_prefix='/api/categories')
     app.register_blueprint(orders_bp, url_prefix='/api/orders')
     app.register_blueprint(users_bp, url_prefix='/api/users')
     app.register_blueprint(payments_bp, url_prefix='/api/payments')
+    app.register_blueprint(auth_bp, url_prefix='/api/auth')
     
     # Create database tables
     with app.app_context():

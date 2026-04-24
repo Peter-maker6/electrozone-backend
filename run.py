@@ -9,11 +9,11 @@ def init_database():
     with app.app_context():
         # Create all tables
         db.create_all()
-        print("✓ Database tables created successfully")
+        print("[OK] Database tables created successfully")
         
         # Check if data already exists
         if Category.query.first():
-            print("✓ Database already has data, skipping seed")
+            print("[OK] Database already has data, skipping seed")
             return
         
         # Create admin user
@@ -74,7 +74,7 @@ def init_database():
             db.session.add(category)
         
         db.session.commit()
-        print("✓ Categories created successfully")
+        print("[OK] Categories created successfully")
         
         # Create products (all 39 products including the 20 new ones)
         products = [
@@ -633,15 +633,15 @@ def init_database():
             db.session.add(product)
         
         db.session.commit()
-        print("✓ Products created successfully (39 total)")
-        print("✓ Database initialized successfully!")
+        print("[OK] Products created successfully (39 total)")
+        print("[OK] Database initialized successfully!")
 
 # Initialize when server starts
-print("📦 Initializing database...")
+print("Initializing database...")
 init_database()
 
 if __name__ == '__main__':
-    print("🚀 Starting ElectroZone E-commerce API...")
-    print("📡 API available at: http://localhost:5000")
-    print("📚 API Documentation: http://localhost:5000/api/")
+    print("Starting D&J Electronics and Electricals API...")
+    print("API available at: http://localhost:5000")
+    print("API Documentation: http://localhost:5000/api/")
     app.run(debug=True, host='0.0.0.0', port=5000)

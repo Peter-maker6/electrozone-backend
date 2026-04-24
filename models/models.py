@@ -9,11 +9,20 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(256), nullable=False)
+    password_hash = db.Column(db.String(256), nullable=True)  # Nullable for Google OAuth users
     full_name = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(20))
     address = db.Column(db.Text)
     is_admin = db.Column(db.Boolean, default=False)
+    
+    # Password reset fields
+    reset_code = db.Column(db.String(6))
+    reset_code_expiry = db.Column(db.DateTime)
+    
+    # Google OAuth fields
+    google_id = db.Column(db.String(100), unique=True, nullable=True)
+    auth_provider = db.Column(db.String(20), default='local')  # 'local' or 'google'
+    
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
